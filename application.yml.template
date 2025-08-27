@@ -1,0 +1,50 @@
+server:
+  port: 2333
+  address: 0.0.0.0
+  http2:
+    enabled: true
+
+lavalink:
+  server:
+    password: "${LAVALINK_PASSWORD}"
+    httpTimeout: 120000
+    trackStuckThresholdMs: 50000
+    sources:
+      youtube: false
+      spotify: false
+      deezer: false
+      applemusic: false
+
+  plugins:
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.13.4"
+      snapshot: false
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.0"
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    clients:
+      - TV
+      - TVHTML5EMBEDDED
+
+    oauth:
+      enabled: true
+      clientId: "${YOUTUBE_CLIENT_ID}"
+      clientSecret: "${YOUTUBE_CLIENT_SECRET}"
+      refreshToken: "${YOUTUBE_REFRESH_TOKEN}"
+    pot:
+      token: "${POT_TOKEN}"
+      visitorData: "${POT_VISITOR_DATA}"
+
+  lavasrc:
+    sources:
+      spotify: true
+      deezer: false
+      applemusic: false
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET}"
+      countryCode: "${SPOTIFY_COUNTRY}"

@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  lavalink:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        LAVALINK_VERSION: "4.1.1"
+        YOUTUBE_PLUGIN_VERSION: "1.13.5"
+        LAVASRC_PLUGIN_VERSION: "4.8.0"
+    image: myorg/lavalink:latest
+    container_name: lavalink
+    env_file:
+      - .env.lavalink
+    ports:
+      - "2333:2333"
+    volumes:
+      - ./plugins:/app/plugins
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:2333/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - lavalink_net
+
+networks:
+  lavalink_net:
+    driver: bridge
