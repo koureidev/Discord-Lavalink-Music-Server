@@ -57,28 +57,32 @@ You can run the Lavalink server in **two ways**:
 
 ### ⚡ Option B – Run locally (manual setup)
 
-1. **Install prerequisites:**
-   * **Java JDK 17.0.16+**
-     - [Oracle JDK](https://www.oracle.com/java/technologies/downloads)  
-     - [Microsoft OpenJDK](https://learn.microsoft.com/java/openjdk/download)  
-     - Linux (Debian/Ubuntu):  
-       ```bash
-       sudo apt-get install openjdk-17-jdk
-       ```  
-     - Linux (Fedora/CentOS/Rocky):  
-       ```bash
-       dnf install java-17-openjdk
-       ```
-       or
-       ```bash
-       yum install java-17-openjdk
-       ```
+1.  **Install prerequisites:**
+    For the Lavalink server to run correctly, you need the Java runtime and several system libraries for audio decoding and network functionality.
 
-2. **Clone the repository:**
-   ```bash
-   git clone https://github.com/koureidev/discord-lavalink-music-server.git
-   cd lavalink
-   ```
+    **On Debian/Ubuntu-based systems (like Ubuntu, Lubuntu, Mint):**
+    This single command installs Java and all required libraries.
+    ```bash
+    sudo apt-get install openjdk-17-jdk libstdc++6 ffmpeg curl ca-certificates
+    ```
+
+    **On Fedora/CentOS/Rocky-based systems:**
+    This single command installs Java and all required libraries.
+    ```bash
+    sudo dnf install java-17-openjdk libstdc++ ffmpeg curl ca-certificates
+    ```
+
+    > **Why these packages?**
+    > *   `openjdk-17-jdk`: The Java runtime environment for Lavalink.
+    > *   `libstdc++6` / `libstdc++`: The C++ standard library, critical for native MP3 decoding.
+    > *   `ffmpeg`: A powerful multimedia framework used as a fallback for wide audio format compatibility.
+    > *   `curl` & `ca-certificates`: Basic utilities for secure network requests. Most systems have them, but installing them ensures they are present.
+
+2.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/koureidev/discord-lavalink-music-server.git
+    cd discord-lavalink-music-server
+    ```
 
 3. **Set up configuration:**
    - Copy `application.yml.template` to `application.yml`.
