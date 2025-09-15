@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y gettext-base curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y gettext-base curl ca-certificates libstdc++6 ffmpeg && rm -rf /var/lib/apt/lists/*
 
 COPY application.yml.template /app/application.yml.template
 
