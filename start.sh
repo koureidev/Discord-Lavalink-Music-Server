@@ -6,7 +6,7 @@ for cmd in curl java envsubst; do
         echo "Error: Command '$cmd' not found." >&2
         echo "Please ensure it is installed and available in your PATH." >&2
         if [ "$cmd" = "envsubst" ]; then
-            echo "Tip: 'envsubst' is part of the 'gettext' package (e.g., 'sudo apt install gettext')." >&2
+            echo "Tip: 'envsubst' is part of the 'gettext' package (e.g., 'sudo apt install gettext-base')." >&2
         fi
         exit 1
     fi
@@ -21,6 +21,7 @@ fi
 : "${LAVALINK_VERSION:=4.1.1}"
 : "${YOUTUBE_PLUGIN_VERSION:=1.13.5}"
 : "${LAVASRC_PLUGIN_VERSION:=4.8.1}"
+: "${YOUTUBE_CLIENTS:=TV,TVHTML5EMBEDDED}"
 
 LAVALINK_JAR="$SCRIPT_DIR/Lavalink.jar"
 PLUGINS_DIR="$SCRIPT_DIR/plugins"
@@ -54,7 +55,15 @@ if [ ! -f "$LAVASRC_PLUGIN_JAR" ]; then
 fi
 
 echo "Generating application.yml from template..."
+
 envsubst < "$TEMPLATE_FILE" > "$OUTPUT_FILE"
+
+YOUTUBE_CLIENTS_YAML_LIST=$(echo "${YOUTUBE_CLIENTS}" | sed 's/,/\n      - /g')
+
+sed -i.bak "s|YOUTUBE_CLIENTS_PLACEHOLDER|- ${YOUTUBE_CLIENTS_YAML_LIST}|g" "$OUTPUT_FILE"
+
+rm -f "$OUTPUT_FILE.bak"
+
 echo "Configuration file created."
 
 echo "Starting Lavalink server..."
