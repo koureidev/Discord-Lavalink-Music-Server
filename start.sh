@@ -15,7 +15,10 @@ done
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
 if [ -f "$SCRIPT_DIR/.env" ]; then
-  export $(grep -v '^#' "$SCRIPT_DIR/.env" | xargs)
+  set -a
+  # shellcheck disable=SC1090
+  . "$SCRIPT_DIR/.env"
+  set +a
 fi
 
 : "${LAVALINK_VERSION:=4.1.1}"
@@ -25,8 +28,8 @@ fi
 
 LAVALINK_JAR="$SCRIPT_DIR/Lavalink.jar"
 PLUGINS_DIR="$SCRIPT_DIR/plugins"
-YOUTUBE_PLUGIN_JAR="$PLUGINS_DIR/youtube-plugin.jar"
-LAVASRC_PLUGIN_JAR="$PLUGINS_DIR/lavasrc-plugin.jar"
+YOUTUBE_PLUGIN_JAR="$SCRIPT_DIR/plugins/youtube-plugin.jar"
+LAVASRC_PLUGIN_JAR="$SCRIPT_DIR/plugins/lavasrc-plugin.jar"
 TEMPLATE_FILE="$SCRIPT_DIR/application.yml.template"
 OUTPUT_FILE="$SCRIPT_DIR/application.yml"
 
@@ -56,13 +59,9 @@ fi
 
 echo "Generating application.yml from template..."
 
-envsubst < "$TEMPLATE_FILE" > "$OUTPUT_FILE"
+export YOUTUBE_CLIENTS_YAML=$(printf '      - %s\n' $(echo "$YOUTUBE_CLIENTS" | tr ',' ' '))
 
-YOUTUBE_CLIENTS_YAML_LIST=$(echo "${YOUTUBE_CLIENTS}" | sed 's/,/\n      - /g')
-
-sed -i.bak "s|YOUTUBE_CLIENTS_PLACEHOLDER|- ${YOUTUBE_CLIENTS_YAML_LIST}|g" "$OUTPUT_FILE"
-
-rm -f "$OUTPUT_FILE.bak"
+envsubst '$LAVALINK_PORT,$LAVALINK_PASSWORD,$YOUTUBE_CLIENT_ID,$YOUTUBE_CLIENT_SECRET,$YOUTUBE_REFRESH_TOKEN,$POT_TOKEN,$POT_VISITOR_DATA,$SPOTIFY_CLIENT_ID,$SPOTIFY_CLIENT_SECRET,$SPOTIFY_COUNTRY,$YOUTUBE_CLIENTS_YAML' < "$TEMPLATE_FILE" > "$OUTPUT_FILE"
 
 echo "Configuration file created."
 
