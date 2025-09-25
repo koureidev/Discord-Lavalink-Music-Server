@@ -19,7 +19,7 @@ It comes pre-configured with plugins for **YouTube** and **Spotify** (via Lavasr
 * **YouTube support**: OAuth-based playback for reliable streaming.
 * **Spotify integration**: Handled by the Lavasrc plugin, with search and link playback.
 * **Docker-ready**: Includes Dockerfile and docker-compose setup for quick deployment.
-* **Customizable**: Configure via `.env` and `application.yml.template`.
+* **Customizable**: Fully customizable via a single `.env` file.
 
 ---
 
