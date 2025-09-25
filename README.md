@@ -84,14 +84,7 @@ This method uses a smart script to download all necessary files and run the serv
     ```
 
 3.  **Configure environment variables:**  
-    Copy the example file to create your own configuration.
-    ```bash
-    cp .env.example .env
-    ```
-    Now, edit the `.env` file with your credentials (at least `LAVALINK_PASSWORD`, and your Spotify/YouTube keys).
-    ```bash
-    nano .env
-    ```
+   Use `.env.example` as a reference. Copy its content into a new `.env` file and update it with your credentials.
 
 4.  **Run the setup script:**  
     This script will automatically download the correct Lavalink and plugin versions specified in your `.env` file, generate the configuration, and start the server.
