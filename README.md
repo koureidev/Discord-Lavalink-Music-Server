@@ -101,7 +101,7 @@ This method uses a smart script to download all necessary files and run the serv
   Must match the values in the bot’s `.env`. Default:
   ```env
   LAVALINK_PORT=2333
-  LAVALINK_PASSWORD=youshallnotpass
+  LAVALINK_PASSWORD=changeme
   ```
 
 * **YouTube (OAuth)**
