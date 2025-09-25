@@ -29,7 +29,9 @@ You can run the Lavalink server in **two ways**:
 
 ### ⚡ Option A – Run with Docker (recommended)
 
-1. **Install prerequisites:**  
+1. **Install prerequisites:**
+   * **Git** to clone the repository.
+     - [Install Git](https://git-scm.com/downloads/)
    * **Docker** and **Docker Compose** must be installed. If you install Docker Desktop, compose will already be included.
      - [Install Docker](https://docs.docker.com/get-docker/)  
      - [Install Docker Compose](https://docs.docker.com/compose/install/)
@@ -69,12 +71,12 @@ This method uses a smart script to download all necessary files and run the serv
 
     **On Debian/Ubuntu-based systems:**
     ```bash
-    sudo apt-get install openjdk-17-jdk ffmpeg gettext-base curl
+    sudo apt-get install default-jdk ffmpeg gettext-base curl git
     ```
 
     **On Fedora/CentOS/Rocky-based systems:**
     ```bash
-    sudo dnf install java-17-openjdk ffmpeg gettext curl
+    sudo dnf install java-latest-openjdk-devel ffmpeg gettext curl git
     ```
 
 2.  **Clone the repository:**
