@@ -22,8 +22,7 @@ plugins:
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
     clients:
-      - TV
-      - TVHTML5EMBEDDED
+      - YOUTUBE_CLIENTS_PLACEHOLDER
 
     oauth:
       enabled: true
@@ -43,3 +42,4 @@ plugins:
       clientId: "${SPOTIFY_CLIENT_ID}"
       clientSecret: "${SPOTIFY_CLIENT_SECRET}"
       countryCode: "${SPOTIFY_COUNTRY}"
+
