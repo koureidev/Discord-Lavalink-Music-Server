@@ -21,9 +21,8 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
-    clients:
-      - YOUTUBE_CLIENTS_PLACEHOLDER
-
+    clients: 
+${YOUTUBE_CLIENTS_YAML}
     oauth:
       enabled: true
       clientId: "${YOUTUBE_CLIENT_ID}"
@@ -42,4 +41,3 @@ plugins:
       clientId: "${SPOTIFY_CLIENT_ID}"
       clientSecret: "${SPOTIFY_CLIENT_SECRET}"
       countryCode: "${SPOTIFY_COUNTRY}"
-
