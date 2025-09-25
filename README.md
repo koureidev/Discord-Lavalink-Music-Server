@@ -62,26 +62,20 @@ You can run the Lavalink server in **two ways**:
 
 ### ⚡ Option B – Run locally (manual setup)
 
-1.  **Install prerequisites:**
-    For the Lavalink server to run correctly, you need the Java runtime and several system libraries for audio decoding and network functionality.
+This method uses a smart script to download all necessary files and run the server.
 
-    **On Debian/Ubuntu-based systems (like Ubuntu, Lubuntu, Mint):**
-    This single command installs Java and all required libraries.
+1.  **Install prerequisites:**  
+    Install Java and other required tools for your system.
+
+    **On Debian/Ubuntu-based systems:**
     ```bash
-    sudo apt-get install openjdk-17-jdk libstdc++6 ffmpeg curl ca-certificates
+    sudo apt-get install openjdk-17-jdk ffmpeg gettext curl
     ```
 
     **On Fedora/CentOS/Rocky-based systems:**
-    This single command installs Java and all required libraries.
     ```bash
-    sudo dnf install java-17-openjdk libstdc++ ffmpeg curl ca-certificates
+    sudo dnf install java-17-openjdk ffmpeg gettext curl
     ```
-
-    > **Why these packages?**
-    > *   `openjdk-17-jdk`: The Java runtime environment for Lavalink.
-    > *   `libstdc++6` / `libstdc++`: The C++ standard library, critical for native MP3 decoding.
-    > *   `ffmpeg`: A powerful multimedia framework used as a fallback for wide audio format compatibility.
-    > *   `curl` & `ca-certificates`: Basic utilities for secure network requests. Most systems have them, but installing them ensures they are present.
 
 2.  **Clone the repository:**
     ```bash
@@ -89,15 +83,22 @@ You can run the Lavalink server in **two ways**:
     cd discord-lavalink-music-server
     ```
 
-3. **Set up configuration:**
-   - Copy `application.yml.template` to `application.yml`.
-   - Edit `application.yml` with your credentials (password, plugins, tokens, etc.).
-   - Alternatively, use `.env` together with `start.sh` to auto-generate the config.
+3.  **Configure environment variables:**  
+    Copy the example file to create your own configuration.
+    ```bash
+    cp .env.example .env
+    ```
+    Now, edit the `.env` file with your credentials (at least `LAVALINK_PASSWORD`, and your Spotify/YouTube keys).
+    ```bash
+    nano .env
+    ```
 
-4. **Run Lavalink:**
-   ```bash
-   java -Xmx768m -Xms256m -jar Lavalink.jar
-   ```
+4.  **Run the setup script:**  
+    This script will automatically download the correct Lavalink and plugin versions specified in your `.env` file, generate the configuration, and start the server.
+    ```bash
+    chmod +x ./start.sh
+    ./start.sh
+    ```
 
 ---
 
