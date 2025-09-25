@@ -1,26 +1,29 @@
 version: "3.8"
 
+env_file:
+  - .env
+
 services:
   lavalink:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        LAVALINK_VERSION: "4.1.1"
-        YOUTUBE_PLUGIN_VERSION: "1.13.5"
-        LAVASRC_PLUGIN_VERSION: "4.8.1"
+        LAVALINK_VERSION: "${LAVALINK_VERSION:-4.1.1}"
+        YOUTUBE_PLUGIN_VERSION: "${YOUTUBE_PLUGIN_VERSION:-1.13.5}"
+        LAVASRC_PLUGIN_VERSION: "${LAVASRC_PLUGIN_VERSION:-4.8.1}"
     image: myorg/lavalink:latest
     container_name: lavalink
     env_file:
-      - .env.lavalink
+      - .env
     ports:
-      - "2333:2333"
+      - "${LAVALINK_PORT:-2333}:${LAVALINK_PORT:-2333}"
     volumes:
       - ./plugins:/app/plugins
       - ./data:/app/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:2333/"]
+      test: "curl -f http://127.0.0.1:${LAVALINK_PORT:-2333}/ || exit 1"
       interval: 30s
       timeout: 10s
       retries: 3
