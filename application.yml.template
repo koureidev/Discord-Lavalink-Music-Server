@@ -16,7 +16,7 @@ lavalink:
       applemusic: false
 
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.13.4"
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.13.5"
       snapshot: false
     - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.0"
 
