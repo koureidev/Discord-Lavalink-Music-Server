@@ -69,7 +69,7 @@ This method uses a smart script to download all necessary files and run the serv
 
     **On Debian/Ubuntu-based systems:**
     ```bash
-    sudo apt-get install openjdk-17-jdk ffmpeg gettext curl
+    sudo apt-get install openjdk-17-jdk ffmpeg gettext-base curl
     ```
 
     **On Fedora/CentOS/Rocky-based systems:**
