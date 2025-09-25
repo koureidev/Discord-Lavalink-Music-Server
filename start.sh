@@ -1,9 +1,61 @@
 #!/bin/sh
 set -e
 
-: "${LAVALINK_PASSWORD:=youshallnotpass}"
-: "${SERVER_PORT:=2333}"
+for cmd in curl java envsubst; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "Error: Command '$cmd' not found." >&2
+        echo "Please ensure it is installed and available in your PATH." >&2
+        if [ "$cmd" = "envsubst" ]; then
+            echo "Tip: 'envsubst' is part of the 'gettext' package (e.g., 'sudo apt install gettext')." >&2
+        fi
+        exit 1
+    fi
+done
 
-envsubst < /app/application.yml.template > /app/application.yml
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
-exec java -Xmx768m -Xms256m -jar Lavalink.jar
+if [ -f "$SCRIPT_DIR/.env" ]; then
+  export $(grep -v '^#' "$SCRIPT_DIR/.env" | xargs)
+fi
+
+: "${LAVALINK_VERSION:=4.1.1}"
+: "${YOUTUBE_PLUGIN_VERSION:=1.13.5}"
+: "${LAVASRC_PLUGIN_VERSION:=4.8.1}"
+
+LAVALINK_JAR="$SCRIPT_DIR/Lavalink.jar"
+PLUGINS_DIR="$SCRIPT_DIR/plugins"
+YOUTUBE_PLUGIN_JAR="$PLUGINS_DIR/youtube-plugin.jar"
+LAVASRC_PLUGIN_JAR="$PLUGINS_DIR/lavasrc-plugin.jar"
+TEMPLATE_FILE="$SCRIPT_DIR/application.yml.template"
+OUTPUT_FILE="$SCRIPT_DIR/application.yml"
+
+LAVALINK_URL="https://github.com/lavalink-devs/Lavalink/releases/download/${LAVALINK_VERSION}/Lavalink.jar"
+YOUTUBE_PLUGIN_URL="https://github.com/lavalink-devs/youtube-source/releases/download/${YOUTUBE_PLUGIN_VERSION}/youtube-plugin-${YOUTUBE_PLUGIN_VERSION}.jar"
+LAVASRC_PLUGIN_URL="https://github.com/topi314/LavaSrc/releases/download/${LAVASRC_PLUGIN_VERSION}/lavasrc-plugin-${LAVASRC_PLUGIN_VERSION}.jar"
+
+if [ ! -f "$LAVALINK_JAR" ]; then
+    echo "Lavalink.jar not found. Downloading version ${LAVALINK_VERSION}..."
+    curl -sSL -o "$LAVALINK_JAR" "$LAVALINK_URL"
+    echo "Download complete."
+fi
+
+mkdir -p "$PLUGINS_DIR"
+
+if [ ! -f "$YOUTUBE_PLUGIN_JAR" ]; then
+    echo "YouTube plugin not found. Downloading version ${YOUTUBE_PLUGIN_VERSION}..."
+    curl -sSL -o "$YOUTUBE_PLUGIN_JAR" "$YOUTUBE_PLUGIN_URL"
+    echo "Download complete."
+fi
+
+if [ ! -f "$LAVASRC_PLUGIN_JAR" ]; then
+    echo "Lavasrc plugin not found. Downloading version ${LAVASRC_PLUGIN_VERSION}..."
+    curl -sSL -o "$LAVASRC_PLUGIN_JAR" "$LAVASRC_PLUGIN_URL"
+    echo "Download complete."
+fi
+
+echo "Generating application.yml from template..."
+envsubst < "$TEMPLATE_FILE" > "$OUTPUT_FILE"
+echo "Configuration file created."
+
+echo "Starting Lavalink server..."
+exec java -Xmx768m -Xms256m -jar "$LAVALINK_JAR"
