@@ -13,7 +13,7 @@ RUN mkdir /app/plugins
 ARG YOUTUBE_PLUGIN_VERSION=1.13.5
 ADD https://github.com/lavalink-devs/youtube-source/releases/download/${YOUTUBE_PLUGIN_VERSION}/youtube-plugin-${YOUTUBE_PLUGIN_VERSION}.jar /app/plugins/youtube-plugin.jar
 
-ARG LAVASRC_PLUGIN_VERSION=4.8.0
+ARG LAVASRC_PLUGIN_VERSION=4.8.1
 ADD https://github.com/topi314/LavaSrc/releases/download/${LAVASRC_PLUGIN_VERSION}/lavasrc-plugin-${LAVASRC_PLUGIN_VERSION}.jar /app/plugins/lavasrc-plugin.jar
 
 COPY start.sh /app/start.sh
