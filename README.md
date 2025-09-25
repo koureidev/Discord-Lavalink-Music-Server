@@ -1,3 +1,8 @@
+[![License: 0BSD](https://img.shields.io/badge/License-0BSD-blue?style=for-the-badge)](LICENSE)
+[![Docker Ready](https://img.shields.io/badge/Docker-ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Java 17+](https://img.shields.io/badge/Java-17%2B-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Lavalink](https://img.shields.io/badge/Lavalink-supported-FF7139?style=for-the-badge&logo=java&logoColor=white)](https://github.com/lavalink-devs/Lavalink)
+
 # 🔊 Lavalink Server (Pre-Configured)
 
 This repository provides a **production-ready Lavalink server** configuration, designed to work seamlessly with the companion [koureidev/discord-lavalink-music-bot](https://github.com/koureidev/discord-lavalink-music-bot).
