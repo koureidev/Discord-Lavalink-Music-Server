@@ -1,8 +1,5 @@
 version: "3.8"
 
-env_file:
-  - .env
-
 services:
   lavalink:
     build:
@@ -10,20 +7,22 @@ services:
       dockerfile: Dockerfile
       args:
         LAVALINK_VERSION: "${LAVALINK_VERSION:-4.1.1}"
-        YOUTUBE_PLUGIN_VERSION: "${YOUTUBE_PLUGIN_VERSION:-1.13.5}"
+        YOUTUBE_PLUGIN_VERSION: "${YOUTUBE_PLUGIN_VERSION:-1.15.0}"
         LAVASRC_PLUGIN_VERSION: "${LAVASRC_PLUGIN_VERSION:-4.8.1}"
     image: myorg/lavalink:latest
     container_name: lavalink
-    env_file:
-      - .env
+    env_file: .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "${LAVALINK_PORT:-2333}:${LAVALINK_PORT:-2333}"
     volumes:
-      - ./plugins:/app/plugins
       - ./data:/app/data
+    depends_on:
+      - cipher-server
     restart: unless-stopped
     healthcheck:
-      test: "curl -f http://127.0.0.1:${LAVALINK_PORT:-2333}/ || exit 1"
+      test: "curl -f --header 'Authorization: ${LAVALINK_PASSWORD}' http://127.0.0.1:${LAVALINK_PORT:-2333}/v4/info || exit 1"
       interval: 30s
       timeout: 10s
       retries: 3
@@ -33,8 +32,26 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
+      lavalink_net:
+        aliases:
+          - lavalink
+
+  cipher-server:
+    image: ghcr.io/kikkia/yt-cipher:master
+    container_name: yt-cipher
+    restart: unless-stopped
+    environment:
+      - PORT=8001
+      - API_TOKEN=${CIPHER_SERVER_PASSWORD}
+    ports:
+      - "8001:8001"
+    networks:
       - lavalink_net
 
 networks:
   lavalink_net:
+    name: lavalink_net
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

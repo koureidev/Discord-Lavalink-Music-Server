@@ -21,8 +21,9 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
-    clients: 
-${YOUTUBE_CLIENTS_YAML}
+    remoteCipher:
+      url: "${CIPHER_SERVER_URL}"
+      password: "${CIPHER_SERVER_PASSWORD}"
     oauth:
       enabled: true
       clientId: "${YOUTUBE_CLIENT_ID}"
