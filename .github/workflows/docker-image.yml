@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --build-arg LAVALINK_VERSION=4.1.1 --build-arg YOUTUBE_PLUGIN_VERSION=1.15.0 --build-arg LAVASRC_PLUGIN_VERSION=4.8.1 --tag my-image-name:$(date +%s)
