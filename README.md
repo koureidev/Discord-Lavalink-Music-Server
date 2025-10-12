@@ -69,14 +69,28 @@ This method uses a smart script to download all necessary files and run the serv
 1.  **Install prerequisites:**  
     Install Java and other required tools for your system.
 
+
     **On Debian/Ubuntu-based systems:**
+    ###### Install base dependencies
     ```bash
     sudo apt-get install default-jdk ffmpeg gettext-base curl git
     ```
 
+    ###### Install Deno
+    ```bash
+    curl -fsSL https://deno.land/install.sh | sh
+    ```
+
+
     **On Fedora/CentOS/Rocky-based systems:**
+    ###### Install base dependencies
     ```bash
     sudo dnf install java-latest-openjdk-devel ffmpeg gettext curl git
+    ```
+
+    ###### Install Deno
+    ```bash
+    curl -fsSL https://deno.land/install.sh | sh
     ```
 
 2.  **Clone the repository:**
@@ -116,6 +130,36 @@ This method uses a smart script to download all necessary files and run the serv
 * **POT Plugin (Optional)**
   Extra tokens for YouTube playback. Not officially supported by YouTube. Leave empty unless you have them.
 
+### YouTube Playback (Cipher Server)
+
+This project uses a **Cipher Server** for reliable YouTube playback. You can choose between a public or a self-hosted server in your `.env` file.
+
+#### Option A: Public Cipher Server (Default)
+
+The easiest setup, ideal for most users. This is the default configuration.
+
+*   **How to use:** Ensure your `.env` file has these lines active:
+    ```env
+    CIPHER_SERVER_URL=https://cipher.kikkia.dev/
+    CIPHER_SERVER_PASSWORD=
+    ```
+
+#### Option B: Self-Hosted Cipher Server
+
+For maximum reliability. The setup is handled automatically by Docker or the `start.sh` script.
+
+*   **How to use:**
+    1.  Ensure you have installed all prerequisites (including **Deno** for the manual setup).
+    2.  In your `.env` file, comment out the public server lines and activate the self-hosted one. The address can be `localhost`, `127.0.0.1`, or your local network IP.
+    ```env
+    #CIPHER_SERVER_URL=https://cipher.kikkia.dev/
+    #CIPHER_SERVER_PASSWORD=
+
+    CIPHER_SERVER_URL=http://localhost:8001/
+    CIPHER_SERVER_PASSWORD=your_secret_cipher_password_here
+    ```
+    3.  Run `docker compose up -d --build` or `./start.sh` as usual.
+
 ---
 
 ## 🙏 Acknowledgements
@@ -123,6 +167,6 @@ This method uses a smart script to download all necessary files and run the serv
 This project would not be possible without the incredible work of the open-source community. Special thanks to:
 
 * **[Lavalink](https://github.com/lavalink-devs/Lavalink):** The powerful, standalone audio sending node used for all audio playback.
-* **[lavalink-client](https://github.com/lavalink-devs/lavalink-client):** A feature-rich and stable Lavalink client for Node.js.
 * **[Lavasrc](https://github.com/topi314/LavaSrc):** A Lavalink plugin that provides support for Spotify, Deezer, and Apple Music.
 * **[youtube-source](https://github.com/lavalink-devs/youtube-source):** An official Lavalink plugin for sourcing audio from YouTube.
+* **[yt-cipher](https://github.com/kikkia/yt-cipher):** The remote cipher service that enables robust and stable YouTube playback.
